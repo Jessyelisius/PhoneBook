@@ -1,4 +1,3 @@
-const validateTokens = require("../middleware/jwtToken");
 const UserModel = require("../model/User.model");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -57,7 +56,17 @@ const LoginUser = async (req, res) => {
             },
         }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1hr'});
 
-        res.status(200).json({Acesstoken})
+        res.status(200).json({
+            Error: false, 
+            Message: "Login successful",
+            Token:Acesstoken,
+            User:{
+                id:user.id,
+                Email: user.Email,
+                Fullname:user.Fullname
+            }
+
+        })
         
     } catch (error) {
         res.status(404).json({Error: true, Message: "Error login in"})
@@ -65,7 +74,27 @@ const LoginUser = async (req, res) => {
     }
 }
 
+// const Logout = async () =>{
+//    try {
+    
+//         const token = jwt.sign({userId: user.id});
+//         if(!token)return res.status(400).json({Error: true, Message: "User not found"})
+
+//         ////remove the token form local storage
+
+//         localStorage.removeItem("token");
+//         Cookies.remove("token")
+
+//         res.status(200).json({Error: false, Message: "user logged out"})
+
+//    } catch (error) {
+//         res.status(404).json({Error: true, Message: "error trying"})
+//         console.log(error);
+//    }
+// }
+
 module.exports = {
     createUser,
     LoginUser
+    
 }
