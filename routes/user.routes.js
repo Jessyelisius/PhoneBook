@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { createUser, LoginUser, Logout } = require('../components/userComponent');
+const { createUser, LoginUser, Logout } = require('../controller/userContrl');
 const validateTokens = require('../middleware/jwtToken');
 const router = express.Router();
 

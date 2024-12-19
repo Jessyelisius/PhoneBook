@@ -10,7 +10,7 @@ const validateTokens = async (req, res, next) => {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if(err){
                 res.status(400)
-                console.error("User is not authorised")
+                console.error("User is not authorised | token is expired")
             }
             req.user = decoded.user;
             next();

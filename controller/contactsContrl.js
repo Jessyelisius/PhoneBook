@@ -29,11 +29,48 @@ const CreateContact = async(req, res) => {
     } catch (error) {
         res.status(404).json({Error: true, Message: "Error creating contact"});
         console.log(error);
+    }
+}
+
+const GetContact = async(req, res) => {
+    try {
+        let availableContact = await ContactModel.findOne({UserId: req.user.id});
+
+        if(!availableContact) return res.status(400).json({Error: true, Message: "no contact available"});
+
+        const contacts = await ContactModel.find({UserId:req.user.id});
+        res.status(200).json(contacts);
+    } catch (error) {
+        res.status(400).json({Error:true, Message: "Error fetching user contacts"})
+        console.log(error);
         
     }
+}
 
+const GetUserByTags = async(req, res) => {
+    try {
+        //checking and validating tags
+        const {tags} = req.query;
+
+        if(!tags) return res.status(400).json({Error: true, Message: "pls provide tag to filter user"});
+        //incase of multiple tags
+        const toArray = tags.split(",");
+
+        //find users with the specified tag from the db
+        const user = await ContactModel.find({Tags:{$in: toArray}});
+
+        if(user.length === 0)return res.status(400).json({Error: true, Message: "Error no user found with the specified tag"})
+
+        res.status(200).json({Error: false, Message: "User retrieved: ", Data: user});
+        
+    } catch (error) {
+        console.error("trouble with tag", error);
+        res.status(500).json({Error: true, Message: "unable to get tags"})  
+    }
 }
 
 module.exports = {
-    CreateContact
+    CreateContact,
+    GetContact,
+    GetUserByTags
 }
