@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended: true}));
 
 //////////route//////////
 app.use('/', require('./routes/user.routes'));
-app.use('/', require('./routes/userContact.routes'));
+app.use('/contacts', require('./routes/userContact.routes'));
 
 app.listen(port, () =>{
     console.log(`app listening on port ${port}`);

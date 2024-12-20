@@ -69,8 +69,36 @@ const GetUserByTags = async(req, res) => {
     }
 }
 
+const updateContact = async(req, res) => {
+    try {
+        //get the id to update
+        const id = req.params.id;
+        if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to update"});
+
+        const update = req.body
+        const user = await ContactModel.findOneAndUpdate({id});
+        
+
+        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"})
+        user({
+            Name: update.Name,
+            PhoneNo: update.PhoneNo,
+            Email: update.Email,
+            Address: update.Address,
+            DOB: update.DOB,
+            Tags: update.Tags,
+            UserId: req.user.id
+        }); 
+        res.status(200).json({Error: false, Message: "COntact updated!"})
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({Error: true, Message: "Error trying to update"});
+    }
+}
+
 module.exports = {
     CreateContact,
     GetContact,
-    GetUserByTags
+    GetUserByTags,
+    updateContact
 }
