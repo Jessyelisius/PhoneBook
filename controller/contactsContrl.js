@@ -87,7 +87,7 @@ const updateContact = async(req, res) => {
         const user = await ContactModel.findByIdAndUpdate(id, updateContact);
         
         if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
-        res.status(200).json({Error: false, Message: "Contact updated!"});
+        res.status(200).json({Error: false, Message: "Contact updated!", Data: user});
 
     } catch (error) {
         console.log(error);
