@@ -75,21 +75,20 @@ const updateContact = async(req, res) => {
         const id = req.params.id;
         if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to update"});
 
-        const update = req.body
-        const user = await ContactModel.findOneAndUpdate({id});
-        
+        const updateContact = req.body;
 
-        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"})
-        user({
-            Name: update.Name,
-            PhoneNo: update.PhoneNo,
-            Email: update.Email,
-            Address: update.Address,
-            DOB: update.DOB,
-            Tags: update.Tags,
-            UserId: req.user.id
-        }); 
-        res.status(200).json({Error: false, Message: "COntact updated!"})
+        if(!updateContact.Name)return res.status(400).json({Error: true, Message: "contact name is needed"});
+        if(!updateContact.PhoneNo)return res.status(400).json({Error: true, Message: "contact phone number is needed"});
+        if(!updateContact.Email)return res.status(400).json({Error: true, Message: "contact email is needed"});
+        if(!updateContact.Address)return res.status(400).json({Error: true, Message: "contact address is needed"});
+        if(!updateContact.DOB)return res.status(400).json({Error: true, Message: "contact dob is needed"});
+        if(!updateContact.Tags)return res.status(400).json({Error: true, Message: "pls specify a tag for the contact"});
+
+        const user = await ContactModel.findByIdAndUpdate(id, updateContact);
+        
+        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
+        res.status(200).json({Error: false, Message: "Contact updated!"});
+
     } catch (error) {
         console.log(error);
         res.status(400).json({Error: true, Message: "Error trying to update"});
