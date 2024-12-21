@@ -31,6 +31,6 @@ const Contact = new Schema({
         type: Array,
         require: [true, "pls specify a tag"]
     }
-}, {timeseries: true});
+}, {timestamps: true});
 
 module.exports = mongoose.model('Contact', Contact);

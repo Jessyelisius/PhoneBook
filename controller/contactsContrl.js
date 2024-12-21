@@ -38,10 +38,10 @@ const GetContact = async(req, res) => {
 
         if(!availableContact) return res.status(400).json({Error: true, Message: "no contact available"});
 
-        const contacts = await ContactModel.find({UserId:req.user.id});
-        res.status(200).json(contacts);
+        const contacts = await ContactModel.find({UserId:req.user.id}).sort({createdAt: -1});
+        res.status(200).json(contacts)
     } catch (error) {
-        res.status(400).json({Error:true, Message: "Error fetching user contacts"})
+        res.status(500).json({Error:true, Message: "Error fetching user contacts"})
         console.log(error);
         
     }
@@ -66,6 +66,21 @@ const GetUserByTags = async(req, res) => {
     } catch (error) {
         console.error("trouble with tag", error);
         res.status(500).json({Error: true, Message: "unable to get tags"})  
+    }
+}
+
+const GetSingleContact = async(req, res) => {
+    try {
+        const id = req.params.id;
+        if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to get"});
+
+        const user = await ContactModel.findById(id);
+        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
+        res.status(200).json({Error: false, Message: "Contact retrieved!", Data: user});
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({Error: true, Message: "Error trying to get contact"})
     }
 }
 
@@ -95,9 +110,26 @@ const updateContact = async(req, res) => {
     }
 }
 
+const deleteContact = async(req, res) => {
+    try {
+        const id = req.params.id;
+        if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to delete"});
+
+        const user = await ContactModel.findByIdAndDelete(id);
+        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
+
+        res.status(200).json({Error: false, Message: "Contact deleted!"});
+
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     CreateContact,
     GetContact,
     GetUserByTags,
-    updateContact
+    GetSingleContact,
+    updateContact,
+    deleteContact
 }
