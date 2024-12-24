@@ -16,6 +16,7 @@ const CreateContact = async(req, res) => {
         if(!input.DOB)return res.status(400).json({Error: true, Message: "contact dob is needed"});
         if(!input.Tags)return res.status(400).json({Error: true, Message: "pls specify a tag for the contact"});
 
+
         const user = await ContactModel.create({
             Name:input.Name,
             PhoneNo:input.PhoneNo,
@@ -25,7 +26,7 @@ const CreateContact = async(req, res) => {
             Tags:input.Tags,
             UserId: req.user.id
         })
-        res.status(201).json({Error: false, Message: "contact created"});
+        res.status(201).json({Error: false, Message: "contact created", Data: user});
     } catch (error) {
         res.status(404).json({Error: true, Message: "Error creating contact"});
         console.log(error);

@@ -30,6 +30,10 @@ const Contact = new Schema({
     Tags:{
         type: Array,
         require: [true, "pls specify a tag"]
+    },
+    ProfilePic:{
+        type: String,
+        default: "https://res.cloudinary.com/dk5b3f7x5/image/upload/v1626885700/ContactApp/ProfilePic/default.png"
     }
 }, {timestamps: true});
 
