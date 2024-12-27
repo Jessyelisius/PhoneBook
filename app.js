@@ -30,6 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/user.routes'));
 app.use('/contacts', require('./routes/userContact.routes'));
 
+app.use('404', (req, res) => {
+    res.render('404')
+})
+
 app.listen(port, () =>{
     console.log(`api listening on port ${port}`);
 });

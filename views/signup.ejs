@@ -102,15 +102,30 @@
         <div class="row">
           <div class="col-md-8 mb-5">
 
+            <% if (Message && Message.length > 0) { %>
+              <ul class="text-danger">
+                <% Msg.forEach(function(error) { %>
+                  <li><%= error %></li>
+                <% }); %>
+              </ul>
+            <% } %>
             
             <form action="/register" method="post" class="p-5 bg-white" style="margin-top: -125px;">
-              <% if (!Message?.UEmail) "": <%= Message.UEmail %> %>
-              <%= Message.FullName %>
+              <% if (Message?.UEmail) { %>
+                <small class="text-danger"><%= Message.UEmail %></small>
+              <% } %>
+              <% if (Message?.Fullname) { %>
+                <small class="text-danger"><%= Message.Fullname %></small>
+              <% } %>              
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">FullName</label>
                   <input type="text" name="Fullname" id="fname" class="form-control">
                 </div>
+
+                <% if (Message?.Email) { %>
+                  <small class="text-danger"><%= Message.Email %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="lname">Email</label>
                   <input type="text" name="Email" id="lname" class="form-control">
@@ -118,7 +133,9 @@
               </div>
 
               <div class="row form-group">
-                
+                <% if (Message?.PhoneNo) { %>
+                  <small class="text-danger"><%= Message.PhoneNo %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="email">PhoneNo</label> 
                   <input type="tel" name="PhoneNo" id="email" class="form-control">
@@ -126,15 +143,23 @@
               </div>
 
               <div class="row form-group">
-                
+                <% if (Message?.Password) { %>
+                  <small class="text-danger"><%= Message.Password %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="pass1">Password</label> 
-                  <input type="password"  name="Password" id="pass1" class="form-control">
+                  <input 
+                  type="password"  
+                  name="Password" id="pass1" 
+                  class="form-control"
+                  >
                 </div>
               </div>
               
               <div class="row form-group">
-                
+                <% if (Message?.Address) { %>
+                  <small class="text-danger"><%= Message.Address %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="pass2">Address</label> 
                   <input type="text"  name="Address" id="pass2" class="form-control">

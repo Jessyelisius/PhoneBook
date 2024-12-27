@@ -4,6 +4,9 @@ const { CreateContact, GetContact, GetUserByTags, updateContact, deleteContact, 
 
 
 const router = express.Router();
+router.get('index', (req, res) =>{
+    res.render('index')
+})
 
 router.post('/create', validateTokens, CreateContact);
 router.get('/getAll', validateTokens, GetContact);

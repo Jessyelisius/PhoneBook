@@ -13,25 +13,29 @@ const createUser = async (req, res) => {
         }
         
         if(!collect?.Fullname) {
-            return res.status(400).json({Error: true, Message: "input your fullname"});
+            return res.status(400).render('signup',{Message: {Fullname: "input your fullname"}});
         }
         if(!collect?.Email){
-            return res.status(400).json({Error: true, Message: "input your email"})
+            return res.status(400).render('signup', {Message: {Email: "input your email"}})
         }
         if(isNaN(collect?.PhoneNo)){
-            return res.status(400).json({Error: true, Message: "invalid phone number"})
+            return res.status(400).render('signup', {Message: {PhoneNo: "invalid phone number"}})
         }
         if(!collect?.Address){
-            return res.status(400).json({Error: true, Message: "input your address"});
+            return res.status(400).render('signup', {Message: {Address: "input your address"}});
         }
 
+        if(collect.Password.length<6){
+            return res.status(400).render('signup', {Message: {Password: "Password is short, min of 6 chars"}});
+        }
         collect.Password =  await bcrypt.hash(collect.Password, 5);
         const saveUser = await UserModel.create(collect);
 
-         res.redirect('login', {Message: "user created"})
+         res.redirect('login')
         
     } catch (error) {
-        res.render('404',{Message: "Unable to create user"})
+        // res.status(404).json({Error: true, Message: "Error creating user"})
+        res.render('404', {Message: `Unable to create user`});
         console.log(error);
     }
 }
