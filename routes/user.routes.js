@@ -5,7 +5,7 @@ const validateTokens = require('../middleware/jwtToken');
 const router = express.Router();
 
 router.get('/signup',(req, res) => {
-    res.render('signup');
+    res.render('signup', {Message});
 });
 
 router.post('/register',createUser);

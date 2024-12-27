@@ -9,7 +9,7 @@ const createUser = async (req, res) => {
 
         const availableUser = await UserModel.findOne({Email: collect.Email});
         if(availableUser){
-           return res.status(400).json({Error: true, Message: "user already registered with the email"});
+           return res.status(400).render('signup',{Message: {UEmail: "user already registered with the email"}});
         }
         
         if(!collect?.Fullname) {
@@ -28,10 +28,10 @@ const createUser = async (req, res) => {
         collect.Password =  await bcrypt.hash(collect.Password, 5);
         const saveUser = await UserModel.create(collect);
 
-        return res.render('login', {Message: "user created"})
+         res.redirect('login', {Message: "user created"})
         
     } catch (error) {
-        res.status(400).json({Error: true, Message: "Unable to create user"})
+        res.render('404',{Message: "Unable to create user"})
         console.log(error);
     }
 }

@@ -103,10 +103,9 @@
           <div class="col-md-8 mb-5">
 
             
-
             <form action="/register" method="post" class="p-5 bg-white" style="margin-top: -125px;">
-             
-
+              <% if (!Message?.UEmail) "": <%= Message.UEmail %> %>
+              <%= Message.FullName %>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">FullName</label>
