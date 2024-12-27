@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
+const validateTokens = require('./middleware/jwtToken');
 
 
 const app = express();
@@ -30,8 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/user.routes'));
 app.use('/contacts', require('./routes/userContact.routes'));
 
-app.use('404', (req, res) => {
-    res.render('404')
+
+app.use((req, res) => {
+    res.render('404',{Message: null});
 })
 
 app.listen(port, () =>{

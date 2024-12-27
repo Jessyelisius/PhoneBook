@@ -4,9 +4,18 @@ const { CreateContact, GetContact, GetUserByTags, updateContact, deleteContact, 
 
 
 const router = express.Router();
-router.get('index', (req, res) =>{
-    res.render('index')
-})
+
+router.get('/', (req, res) =>{
+    res.render('index');
+});
+
+router.get('/listings', (req, res) =>{
+    res.render('listings')
+});
+
+router.get('/contact', (req, res) =>{
+    res.render('contact')
+});
 
 router.post('/create', validateTokens, CreateContact);
 router.get('/getAll', validateTokens, GetContact);
