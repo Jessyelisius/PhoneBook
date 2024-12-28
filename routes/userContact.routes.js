@@ -5,15 +5,15 @@ const { CreateContact, GetContact, GetUserByTags, updateContact, deleteContact, 
 
 const router = express.Router();
 
-router.get('/', (req, res) =>{
+router.get('/', validateTokens, (req, res) =>{
     res.render('index');
 });
 
-router.get('/listings', (req, res) =>{
+router.get('/listings', validateTokens, (req, res) =>{
     res.render('listings')
 });
 
-router.get('/contact', (req, res) =>{
+router.get('/contact',validateTokens, (req, res) =>{
     res.render('contact')
 });
 

@@ -42,43 +42,57 @@ const createUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
     try {
-        const {Email, Password} = req.body;
+        const { Email, Password } = req.body;
 
-        const user = await UserModel.findOne({Email});
-        if(!user)return res.status(400).json({Error: true, Message: "User is not registered"});
-        
-        let pwdValid = bcrypt.compareSync(Password, user.Password)
-        if(!pwdValid)return res.status(400).json({Error: true, Message: "Incorrect password"})
+        // Find user in the database
+        const user = await UserModel.findOne({ Email });
+        if (!user) {
+            return res.status(400).render('login', { Message: { Email: "User is not registered" } });
+        }
 
-        const Acesstoken = jwt.sign({
-            user:{
-                Email: user.Email,
-                Password: user.Password,
-                id: user.id
+        // Validate password
+        const pwdValid = bcrypt.compareSync(Password, user.Password);
+        if (!pwdValid) {
+            return res.status(400).render('login', { Message: { Password: "Incorrect password" } });
+        }
+
+        // Generate JWT token
+        const AccessToken = jwt.sign(
+            { user: {
+                 id: user.id, 
+                 Email: user.Email 
+                } 
             },
-        }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1hr'});
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '1h' }
+        );
 
-        // res.status(200).json({
-        //     Error: false, 
-        //     Message: "Login successful",
-        //     Token:Acesstoken,
-        //     User:{
-        //         id:user.id,
-        //         Email: user.Email,
-        //         Fullname:user.Fullname
-        //     }
-        // })
-        res.render('index', {Message: "Login successful"})
-        
+        // Set token as a cookie
+        res.cookie('token', AccessToken, {
+            httpOnly: true, // Prevent access from JavaScript
+            secure: process.env.SESSION_KEY, // Use secure cookies in production
+            maxAge: 3600000, // Token expiry: 1 hour
+        });
+
+        // Redirect to contacts page
+        res.redirect('/contacts');
+
     } catch (error) {
-        res.status(404).json({Error: true, Message: "Error login in"})
-        console.log(error);
+        console.error('Error during login:', error);
+        res.redirect('/404');
     }
-}
+};
+
+const LogoutUser = (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/login');
+};
+
 
 
 module.exports = {
     createUser,
-    LoginUser
+    LoginUser,
+    LogoutUser
     
 }

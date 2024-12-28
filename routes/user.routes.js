@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { createUser, LoginUser, Logout } = require('../controller/userContrl');
+const { createUser, LoginUser, LogoutUser } = require('../controller/userContrl');
 const validateTokens = require('../middleware/jwtToken');
 const router = express.Router();
 
@@ -15,6 +15,8 @@ router.get('/login',(req, res) => {
 });
 
 router.post('/login', LoginUser);
+
+router.get('/logout', validateTokens, LogoutUser);
 
 
 // router.post('/logout:id',validateTokens, Logout);

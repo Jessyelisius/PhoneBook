@@ -41,7 +41,9 @@
                <!-- enctype="application/x-www-form-urlencoded" onsubmit="send(event, this,'id','/index',true, 'Login is successful',false)" -->
              
               <div class="row form-group">
-                
+                <% if (Message?.Email) { %>
+                  <small class="text-danger"><%= Message.Email %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="email">Email</label> 
                   <input type="email" name="Email" id="email2" class="form-control">
@@ -49,7 +51,9 @@
               </div>
 
               <div class="row form-group">
-                
+                <% if (Message?.Password) { %>
+                  <small class="text-danger"><%= Message.Password %></small>
+                <% } %>
                 <div class="col-md-12">
                   <label class="text-black" for="pass1">Password</label> 
                   <input type="password" name="Password" id="pass3" class="form-control">

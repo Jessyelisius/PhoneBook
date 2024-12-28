@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Page</title>
-</head>
+<%- include('partials/header') %>
 <body>
     <%= Message?.error %>
     <h1>404 Page</h1>
     <p>Ops user restricted</p>
+
+    <div class="py-5 bg-primary">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-7 mr-auto mb-4 mb-lg-0">
+              <h2 class="mb-3 mt-0 text-white">Need a Break;</h2>
+              <p class="mb-0 text-white">Have some ME time!</p>
+            </div>
+            <div class="col-lg-4">
+              <p class="mb-0"><a href="/signup" class="btn btn-outline-white text-white btn-md px-5 font-weight-bold btn-md-block">signup</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
+<%- include('partials/footer') %>
 </html>
