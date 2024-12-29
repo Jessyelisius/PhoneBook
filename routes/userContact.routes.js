@@ -10,7 +10,7 @@ router.get('/', validateTokens, (req, res) =>{
 });
 
 router.get('/listings', validateTokens, (req, res) =>{
-    res.render('listings')
+    res.render('listings', {Message: null, user: [] });
 });
 
 router.get('/contact',validateTokens, (req, res) =>{

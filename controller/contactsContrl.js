@@ -53,20 +53,21 @@ const GetUserByTags = async(req, res) => {
         //checking and validating tags
         const {tags} = req.query;
 
-        if(!tags) return res.status(400).json({Error: true, Message: "pls provide tag to filter user"});
+        if(!tags) return res.status(400).render('listings',{Message:{ noTags: "pls provide tag to filter user"}});
+
         //incase of multiple tags
         const toArray = tags.split(",");
 
         //find users with the specified tag from the db
         const user = await ContactModel.find({Tags:{$in: toArray}});
 
-        if(user.length === 0)return res.status(400).json({Error: true, Message: "Error no user found with the specified tag"})
+        if(user.length === 0)return res.status(400).render('listings',{user: [], Message: "Error no user found with the specified tag"})
 
-        res.status(200).json({Error: false, Message: "User retrieved: ", Data: user});
+        res.status(200).render('listings',{user, Message: null});
         
     } catch (error) {
         console.error("trouble with tag", error);
-        res.status(500).json({Error: true, Message: "unable to get tags"})  
+        res.status(500).render('listings',{user: [], Message: "error occured while searching for user"})  
     }
 }
 

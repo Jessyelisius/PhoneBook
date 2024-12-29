@@ -35,10 +35,17 @@
         <div class="row">
           <div class="col-lg-9">
 
+            <% if (Message){%>
+              <p><%= Message %></p>
+           <% } else{ %>
+            <ul>
+              <% user.forEach(users => { %>
+                
+              
             <div class="d-block d-md-flex listing-horizontal">
 
               <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
-                <span class="category">Restaurants</span>
+                <span class="category"><%= users.Tags %></span>
               </a>
 
               <div class="lh-content">
@@ -61,6 +68,10 @@
               </div>
 
             </div>
+
+            <% }) %>
+            </ul>
+          <% } %>
 
           
             <div class="col-12 mt-5 text-center">
