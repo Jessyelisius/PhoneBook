@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-search-wrap p-2" data-aos="fade-up" data-aos-delay="200">
-              <form  action="/contacts/getByTag" method="get" >
+              <form  action="/contacts/listings" method="get" >
                 <div class="row align-items-center">
                   <div class="col-lg-12 col-xl-4 no-sm-border border-right">
                     <input type="text" class="form-control" placeholder="What are you looking for?">
@@ -119,49 +119,65 @@
             <div class="row mt-5">
               <div class="col-12">
 
-                <form action="#" class="p-5 bg-white" style="margin-top: -125px;">
-             
+                <form action="/contacts/create" method="post" class="p-5 bg-white" style="margin-top: -125px;">
+                  <% if (Message?.error) { %>
+                    <small class="text-danger"><%= Message.error %></small>
+                  <% } %>
 
                   <div class="row form-group">
+                    <% if (Message?.Name) { %>
+                      <small class="text-danger"><%= Message.Name %></small>
+                    <% } %>
                     <div class="col-md-12 mb-3 mb-md-0">
-                      <label class="text-black" for="fname">Name</label>
-                      <input type="text" id="fname" class="form-control">
+                      <label class="text-black" for="fname">Fullname</label>
+                      <input type="text" id="fname" name="Name" class="form-control">
                     </div>
+                    <% if (Message?.PhoneNo) { %>
+                      <small class="text-danger"><%= Message.PhoneNo %></small>
+                    <% } %>
                     <div class="col-md-12">
                       <label class="text-black" for="lname">Phone Number</label>
-                      <input type="tel" id="lname" class="form-control">
+                      <input type="tel" id="lname" name="PhoneNo" class="form-control">
                     </div>
                   </div>
     
                   <div class="row form-group">
-                    
+                    <% if (Message?.Email ){ %>
+                      <small class="text-danger"><%= Message.Email %></small>
+                    <% } %>
                     <div class="col-md-12">
                       <label class="text-black" for="email">Email</label> 
-                      <input type="email" id="email" class="form-control">
+                      <input type="email" id="email" name="Email" class="form-control">
                     </div>
                   </div>
     
                   <div class="row form-group">
-                    
+                    <% if (Message?.Addres) { %>
+                      <small class="text-danger"><%= Message.Addres %></small>
+                    <% } %>
                     <div class="col-md-12">
                       <label class="text-black" for="subject">Addres</label> 
-                      <input type="text" id="subject" class="form-control">
+                      <input type="text" id="subject" name="Addres" class="form-control">
                     </div>
                   </div>
     
                   <div class="row form-group">
-                    
+                    <% if (Message?.DOB) { %>
+                      <small class="text-danger"><%= Message.DOB %></small>
+                    <% } %>
                     <div class="col-md-12">
                       <label class="text-black" for="subject">DOB</label> 
-                      <input type="date" id="subject" class="form-control">
+                      <input type="date" id="subject" name="DOB" class="form-control">
                     </div>
                   </div>
 
                   <div class="row form-group">
-                    
+                    <% if (Message?.Tags) { %>
+                      <small class="text-danger"><%= Message.Tags %></small>
+                    <% } %>
                     <div class="col-md-12">
                       <label class="text-black" for="subject">Tags</label> 
-                      <input type="text" id="subject" class="form-control">
+                      <input type="text" id="subject" name="Tags" class="form-control">
                     </div>
                   </div>
     

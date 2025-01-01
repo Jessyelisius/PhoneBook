@@ -7,14 +7,14 @@ const CreateContact = async(req, res) => {
         const input = req.body;
 
         const existingPhone = await ContactModel.findOne({PhoneNo: input.PhoneNo})
-            if(existingPhone)return res.status(400).json({Error:true, Message: "Contact is already saved"})
+            if(existingPhone)return res.render('index', {Message: "Contact is already saved"})
 
-        if(!input.Name)return res.status(400).json({Error: true, Message: "contact name is needed"});
-        if(!input.PhoneNo)return res.status(400).json({Error: true, Message: "contact phone number is needed"});
-        if(!input.Email)return res.status(400).json({Error: true, Message: "contact email is needed"});
-        if(!input.Address)return res.status(400).json({Error: true, Message: "contact address is needed"});
-        if(!input.DOB)return res.status(400).json({Error: true, Message: "contact dob is needed"});
-        if(!input.Tags)return res.status(400).json({Error: true, Message: "pls specify a tag for the contact"});
+        if(!input.Name)return res.render('index', {Message: {Name: "contact name is needed"}});
+        if(!input.PhoneNo)return res.render('index', {Message: {PhoneNo: "contact phone number is needed"}});
+        if(!input.Email)return res.render('index', {Message: {Email: "contact email is needed"}});
+        if(!input.Address)return res.render('index', {Message: {Address: "contact address is needed"}});
+        if(!input.DOB)return res.render('index', {Message:{DOB: "contact dob is needed"}});
+        if(!input.Tags)return res.render('index', {Message: {Tags: "pls specify a tag for the contact"}});
 
 
         const user = await ContactModel.create({
@@ -26,9 +26,9 @@ const CreateContact = async(req, res) => {
             Tags:input.Tags,
             UserId: req.user.id
         })
-        res.status(201).json({Error: false, Message: "contact created", Data: user});
+        res.redirect('listings');
     } catch (error) {
-        res.status(404).json({Error: true, Message: "Error creating contact"});
+        res.render('index',{Message: {error: "Error creating contact"}});
         console.log(error);
     }
 }
@@ -48,29 +48,45 @@ const GetContact = async(req, res) => {
     }
 }
 
-const GetUserByTags = async(req, res) => {
-    try {
-        //checking and validating tags
-        const {tags} = req.query;
 
-        if(!tags) return res.status(400).render('listings',{Message:{ noTags: "pls provide tag to filter user"}});
-
-        //incase of multiple tags
-        const toArray = tags.split(",");
-
-        //find users with the specified tag from the db
-        const user = await ContactModel.find({Tags:{$in: toArray}});
-
-        if(user.length === 0)return res.status(400).render('listings',{user: [], Message: "Error no user found with the specified tag"})
-
-        res.status(200).render('listings',{user, Message: null});
-        
-    } catch (error) {
-        console.error("trouble with tag", error);
-        res.status(500).render('listings',{user: [], Message: "error occured while searching for user"})  
-    }
-}
-
+// const GetUserByTags = async (req, res) => {
+//     try {
+//       const { tags } = req.query;
+  
+//       if (!tags) {
+//         return res.status(400).render('listings', { 
+//           user: [], 
+//           Message: { noTags: "Please provide tags to filter users." } 
+//         });
+//       }
+  
+//       const toArray = tags.split(",");
+//       console.log("Tags from request:", tags); // Debugging
+//       console.log("Tags array:", toArray); // Debugging
+  
+//       const user = await ContactModel.find({ 
+//         Tags: { $in: toArray.map(tag => new RegExp(`^${tag}$`, 'i')) } 
+//       });
+  
+//       if (!user.length) {
+//         return res.status(400).render('listings', { 
+//           user: [], 
+//           Message: "Error: No users found with the specified tag." 
+//         });
+//       }
+  
+//       res.render('listings', { user, Message: null });
+  
+//     } catch (error) {
+//       console.error("Trouble with tag search:", error);
+//       res.status(500).render('listings', { 
+//         user: [], 
+//         Message: "Error occurred while searching for users." 
+//       });
+//     }
+//   };
+  
+  
 const GetSingleContact = async(req, res) => {
     try {
         const id = req.params.id;
@@ -130,7 +146,7 @@ const deleteContact = async(req, res) => {
 module.exports = {
     CreateContact,
     GetContact,
-    GetUserByTags,
+    // GetUserByTags,
     GetSingleContact,
     updateContact,
     deleteContact
