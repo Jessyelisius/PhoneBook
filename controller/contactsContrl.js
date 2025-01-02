@@ -33,20 +33,20 @@ const CreateContact = async(req, res) => {
     }
 }
 
-const GetContact = async(req, res) => {
-    try {
-        let availableContact = await ContactModel.findOne({UserId: req.user.id});
+// const GetContact = async(req, res) => {
+//     try {
+//         let availableContact = await ContactModel.findOne({UserId: req.user.id});
 
-        if(!availableContact) return res.status(400).json({Error: true, Message: "no contact available"});
+//         if(!availableContact) return res.status(400).render('/404',{Message: "no contact available"});
 
-        const contacts = await ContactModel.find({UserId:req.user.id}).sort({createdAt: -1});
-        res.status(200).json(contacts)
-    } catch (error) {
-        res.status(500).json({Error:true, Message: "Error fetching user contacts"})
-        console.log(error);
+//         const contacts = await ContactModel.find({UserId:req.user.id}).sort({createdAt: -1});
+//         res.status(200).render('listings', contacts)
+//     } catch (error) {
+//         res.status(500).render('/404',{Message: {Error: "Error fetching user contacts"}})
+//         console.log(error);
         
-    }
-}
+//     }
+// }
 
 
 // const GetUserByTags = async (req, res) => {
@@ -145,7 +145,7 @@ const deleteContact = async(req, res) => {
 
 module.exports = {
     CreateContact,
-    GetContact,
+    // GetContact,
     // GetUserByTags,
     GetSingleContact,
     updateContact,

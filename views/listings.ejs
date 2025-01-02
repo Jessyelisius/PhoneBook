@@ -34,79 +34,82 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-9">
-            <!-- <form action="contacts/getAll" method="get"> -->
+        
+
               <% if (Message) { %>
                 <div class="alert alert-warning"><%= Message %></div>
               <% } %>
-            <ul>
-              <% if (user && user.length > 0) { %>
-                <% user.forEach(u => { %>
-                <div class="d-block d-md-flex listing-horizontal">
-                  <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
-                    <span class="category"><%= u.Tags %></span>
-                  </a>
-                  <div class="lh-content">
-                    <a href="#" class="bookmark"><span class="icon-heart"></span></a>
-                    <h3><a href="#"><li><%= u.Name %> - <%= u.Tags.join(", ") %></a></h3>
-                    <p><%= u.Address %></p>
-                    <p><%= u.PhoneNo %></p>
-                    
-                    <p>
-                      <span class="icon-star text-warning"></span>
-                      <span class="icon-star text-warning"></span>
-                      <span class="icon-star text-warning"></span>
-                      <span class="icon-star text-warning"></span>
-                      <span class="icon-star text-secondary"></span>
-                      <span>(492 Reviews)</span>
-                    </p>
+              <ul>
+                <% if (user && user.length > 0) { %>
+                  <% user.forEach(u => { %>
+                  <div class="d-block d-md-flex listing-horizontal">
+                    <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
+                      <span class="category"><%= u.Tags %></span>
+                    </a>
+                    <div class="lh-content">
+                      <a href="#" class="bookmark"><span class="icon-heart"></span></a>
+                      <h3><a href="#"><li><%= u.Name %> - <%= u.Tags.join(", ") %></a></h3>
+                      <p><%= u.Address %></p>
+                      <p><%= u.PhoneNo %></p>
+                      
+                      <p>
+                        <span class="icon-star text-warning"></span>
+                        <span class="icon-star text-warning"></span>
+                        <span class="icon-star text-warning"></span>
+                        <span class="icon-star text-warning"></span>
+                        <span class="icon-star text-secondary"></span>
+                        <span>(492 Reviews)</span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <% }); %>
+                  <% }); %>
+                  <% } else { %>
+                      <p>No users to display.</p>
+                  <% } %>
+              </ul>  
+            
+           <!-- Section for listing of contacts -->
+           <form action="/contacts/getAllContact" method="GET">
+              <% if (Message) { %>
+                <div class="alert alert-warning"><%= Message %></div>
+              <% } %>
+              <ul>
+                <% if (user && user.length > 0) { %>
+                  <% user.forEach(u => { %>
+                    <div class="d-block d-md-flex listing-horizontal">
+                      <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
+                        <span class="category"><%= u.Tags.join(", ") %></span>
+                      </a>
+                      <div class="lh-content">
+                        <a href="#" class="bookmark"><span class="icon-heart"></span></a>
+                        <h3>
+                          <a href="#"><li><%= u.Name %> - <%= u.Tags.join(", ") %></li></a>
+                        </h3>
+                        <p><%= u.Address %></p>
+                        <p><%= u.PhoneNo %></p>
+                        <p>
+                          <span class="icon-star text-warning"></span>
+                          <span class="icon-star text-warning"></span>
+                          <span class="icon-star text-warning"></span>
+                          <span class="icon-star text-warning"></span>
+                          <span class="icon-star text-secondary"></span>
+                          <span>(492 Reviews)</span>
+                        </p>
+                      </div>
+                    </div>
+                  <% }); %>
                 <% } else { %>
-                    <p>No users to display.</p>
+                  <p>No contacts available to display.</p>
                 <% } %>
-            </ul>  
-          <!-- </form>           -->
-
-
-
-
-          <!-- Section for listing of contacts -->
-
-          <form action="contacts/getAll" method="get">
-            <% if (Message) { %>
-              <div class="alert alert-warning"><%= Message %></div>
-            <% } %>
-          <ul>
-            <% if (user && user.length > 0) { %>
-              <% user.forEach(u => { %>
-              <div class="d-block d-md-flex listing-horizontal">
-                <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
-                  <span class="category"><%= u.Tags %></span>
-                </a>
-                <div class="lh-content">
-                  <a href="#" class="bookmark"><span class="icon-heart"></span></a>
-                  <h3><a href="#"><li><%= u.Name %> - <%= u.Tags.join(", ") %></a></h3>
-                  <p><%= u.Address %></p>
-                  <p><%= u.PhoneNo %></p>
-                  
-                  <p>
-                    <span class="icon-star text-warning"></span>
-                    <span class="icon-star text-warning"></span>
-                    <span class="icon-star text-warning"></span>
-                    <span class="icon-star text-warning"></span>
-                    <span class="icon-star text-secondary"></span>
-                    <span>(492 Reviews)</span>
-                  </p>
+              </ul>
+              <!-- Add a button to allow submitting the form -->
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" value="View All Contact" class="btn btn-primary btn-md text-white">
                 </div>
               </div>
-              <% }); %>
-              <% } else { %>
-                  <p>No users to display.</p>
-              <% } %>
-          </ul>  
-        </form>          
-
+            </form>
+          
 
 
             <div class="col-12 mt-5 text-center">
