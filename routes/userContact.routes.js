@@ -54,10 +54,21 @@ router.get('/getAllContact', validateTokens, async (req, res) => {
 
 
 
-router.get('/contact',validateTokens, (req, res) =>{
-    res.render('contact')
+router.get('/contact/:id',validateTokens, async(req, res) =>{
+     try {
+            const id = req.params.id;
+            if(!id) return res.status(400).render('listings',{contact:{}, Message: "specify a contact id to get"});
+    
+            const contact = await ContactModel.findById(id);
+            if(!contact) return res.status(400).render('listings',{contact:{}, Message: "contact is either deleted or not found"});
+            res.status(200).render('contact',{contact, Message: null});
+        }
+        catch(error){
+            console.log(error);
+            res.status(400).render('listings',{contact:{}, Message: "Error trying to get contact"})
+        }
 });
-router.get('/getSingleCntact', validateTokens, GetSingleContact);
+// router.get('/getSingleCntact', validateTokens, GetSingleContact);
 
 
 // router.get('/getAll', validateTokens, GetContact);

@@ -87,20 +87,20 @@ const CreateContact = async(req, res) => {
 //   };
   
   
-const GetSingleContact = async(req, res) => {
-    try {
-        const id = req.params.id;
-        if(!id) return res.status(400).render('listings',{ Message: "specify a contact id to get"});
+// const GetSingleContact = async(req, res) => {
+//     try {
+//         const id = req.params.id;
+//         if(!id) return res.status(400).render('listings',{user:{}, Message: "specify a contact id to get"});
 
-        const user = await ContactModel.findById(id);
-        if(!user) return res.status(400).render('listings',{Message: "contact is either deleted or not found"});
-        res.status(200).render('contact',{Message: null});
-    }
-    catch(error){
-        console.log(error);
-        res.status(400).render('listings',{Message: "Error trying to get contact"})
-    }
-}
+//         const user = await ContactModel.findById(id);
+//         if(!user) return res.status(400).render('listings',{user:{}, Message: "contact is either deleted or not found"});
+//         res.status(200).render('/contacts/contact',{user, Message: null});
+//     }
+//     catch(error){
+//         console.log(error);
+//         res.status(400).render('listings',{user:{}, Message: "Error trying to get contact"})
+//     }
+// }
 
 const updateContact = async (req, res) => {
     try {
@@ -174,7 +174,7 @@ module.exports = {
     CreateContact,
     // GetContact,
     // GetUserByTags,
-    GetSingleContact,
+    // GetSingleContact,
     updateContact,
     deleteContact
 }
