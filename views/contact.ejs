@@ -32,9 +32,7 @@
         <div class="row">
           <div class="col-md-7 mb-5"  data-aos="fade">
 
-            
-
-            <form action="#" class="p-5 bg-white" style="margin-top: -150px;">
+            <!-- <form action="#" class="p-5 bg-white" style="margin-top: -150px;">
              
 
               <div class="row form-group">
@@ -78,7 +76,64 @@
               </div>
 
   
-            </form>
+            </form> -->
+
+            <form action="#" method="post" class="p-5 bg-white" style="margin-top: -125px;">
+          
+              <div class="row form-group">
+
+                  <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="text-black" for="fname">Name</label>
+                      <input type="text" id="fname" name="Name" value="<%= contact?.Name || '' %>" class="form-control">
+                  </div>
+                 
+                  <div class="col-md-12">
+                      <label class="text-black" for="lname">Phone Number</label>
+                      <input type="tel" id="lname" name="PhoneNo" value="<%= contact?.PhoneNo || '' %>" class="form-control">
+                  </div>
+              </div>
+
+              <div class="row form-group">
+                 
+                  <div class="col-md-12">
+                  <label class="text-black" for="email">Email</label> 
+                  <input type="email" id="email" name="Email" value="<%= contact.Email  %>" class="form-control">
+                  </div>
+              </div>
+  
+              <div class="row form-group">
+                  
+                  <div class="col-md-12">
+                  <label class="text-black" for="subject">Address</label> 
+                  <input type="text" id="subject" name="Address" value="<%= contact.Address  %>" class="form-control">
+                  </div>
+              </div>
+  
+              <div class="row form-group">
+                
+                  <div class="col-md-12">
+                  <label class="text-black" for="subject">DOB</label> 
+                  <input type="date" id="subject" name="DOB" value="<%= contact.DOB  %>" class="form-control">
+                  </div>
+              </div>
+
+              <div class="row form-group">
+                 
+                  <div class="col-md-12">
+                  <label class="text-black" for="subject">Tags</label> 
+                  <input type="text" id="subject" name="Tags" value="<%= contact.Tags  %>" class="form-control">
+                  </div>
+              </div>
+    
+              <!-- <div class="row form-group">
+                  <div class="col-md-12">
+                  <input type="submit" value="update Contact" class="btn btn-primary btn-md text-white">
+                  </div>
+              </div> -->
+    
+              <!-- Add other fields with similar structure -->
+          </form>
+
           </div>
           <div class="col-md-5"  data-aos="fade" data-aos-delay="100">
             
