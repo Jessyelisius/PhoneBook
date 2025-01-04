@@ -12,12 +12,6 @@ router.get('/', validateTokens, (req, res) =>{
 
 router.post('/create', validateTokens, CreateContact);
 
-// router.get('/listings', validateTokens, (req, res) =>{
-//     res.render('listings', {Message: null, user: []});
-// });
- 
-// router.get('/listings', validateTokens, GetUserByTags);
-
 router.get('/listings', validateTokens, async (req, res) => {
     try {
         const tags = req.query.Tags || null;
@@ -38,12 +32,6 @@ router.get('/listings', validateTokens, async (req, res) => {
             Message: users.length > 0 ? null : "No users found with the specified tag."
         });
 
-        // // Check if users exist
-        // if (users.length > 0) {
-        //     res.render('listings', { user: users, Message: null }); // Passing as `user`
-        // } else {
-        //     res.render('listings', { user: [], Message: "No users found with the specified tag." });
-        // }
     } catch (err) {
         console.error("Error fetching users:", err);
         res.render('listings', { user: [], Message: "Server error while fetching users." });
@@ -69,11 +57,32 @@ router.get('/getAllContact', validateTokens, async (req, res) => {
 router.get('/contact',validateTokens, (req, res) =>{
     res.render('contact')
 });
+router.get('/getSingleCntact', validateTokens, GetSingleContact);
 
 
 // router.get('/getAll', validateTokens, GetContact);
-router.get('/getSingleCntact', validateTokens, GetSingleContact);
-router.put('/update/:id', validateTokens, updateContact);
-router.delete('/delete/:id', validateTokens, deleteContact);
+router.get('/update/:id', validateTokens, async (req, res) => {
+    try {
+        const contact = await ContactModel.findById(req.params.id);
+        if (!contact) {
+            return res.render('updateContact', {
+                contact: {}, 
+                Message: { error: "User ID not found" },
+            });
+        }
+
+        res.render('updateContact', { contact, Message: null });
+    } catch (error) {
+        console.log(error);
+        res.render('updateContact', {
+            contact: {},
+            Message: { error: "Error trying to update user contacts" },
+        });
+    }
+});
+
+router.post('/update/:id', validateTokens, updateContact);
+
+router.get('/delete/:id', validateTokens, deleteContact);
 
 module.exports = router;

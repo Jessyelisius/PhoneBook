@@ -102,46 +102,73 @@ const GetSingleContact = async(req, res) => {
     }
 }
 
-const updateContact = async(req, res) => {
+const updateContact = async (req, res) => {
     try {
-        //get the id to update
         const id = req.params.id;
-        if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to update"});
 
-        const updateContact = req.body;
+        if (!id) {
+            return res.render('updateContact', {
+                contact: {},
+                Message: { error: "Specify a contact ID to update" },
+            });
+        }
 
-        if(!updateContact.Name)return res.status(400).json({Error: true, Message: "contact name is needed"});
-        if(!updateContact.PhoneNo)return res.status(400).json({Error: true, Message: "contact phone number is needed"});
-        if(!updateContact.Email)return res.status(400).json({Error: true, Message: "contact email is needed"});
-        if(!updateContact.Address)return res.status(400).json({Error: true, Message: "contact address is needed"});
-        if(!updateContact.DOB)return res.status(400).json({Error: true, Message: "contact dob is needed"});
-        if(!updateContact.Tags)return res.status(400).json({Error: true, Message: "pls specify a tag for the contact"});
+        const { Name, PhoneNo, Email, Address, DOB, Tags } = req.body;
 
-        const user = await ContactModel.findByIdAndUpdate(id, updateContact);
-        
-        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
-        res.status(200).json({Error: false, Message: "Contact updated!", Data: user});
+        if (!Name || !PhoneNo || !Email || !Address || !DOB || !Tags) {
+            const contact = await ContactModel.findById(id); 
+            return res.render('updateContact', {
+                contact,
+                Message: { error: "All fields are required to update the contact" },
+            });
+        }
 
+        const updatedContact = await ContactModel.findByIdAndUpdate(id, {
+            Name,
+            PhoneNo,
+            Email,
+            Address,
+            DOB,
+            Tags,
+        }, { new: true }); 
+
+        if (!updatedContact) {
+            return res.render('updateContact', {
+                contact: {},
+                Message: { error: "Contact is either deleted or not found" },
+            });
+        }
+
+        res.redirect('/contacts/getAllContact');
     } catch (error) {
         console.log(error);
-        res.status(400).json({Error: true, Message: "Error trying to update"});
+        res.status(400).render('updateContact', {
+            contact: {},
+            Message: { error: "Error trying to update the contact" },
+        });
     }
-}
+};
 
-const deleteContact = async(req, res) => {
+const deleteContact = async (req, res) => {
     try {
         const id = req.params.id;
-        if(!id) return res.status(400).json({Error: true, Message: "specify a contact id to delete"});
+        if (!id) {
+            return res.render('listings', { Message: "Specify a contact ID to delete" });
+        }
 
         const user = await ContactModel.findByIdAndDelete(id);
-        if(!user) return res.status(400).json({Error: true, Message: "contact is either deleted or not found"});
+        if (!user) {
+            return res.status(400).render('listings', { Message: "Contact not found or already deleted" });
+        }
 
-        res.status(200).json({Error: false, Message: "Contact deleted!"});
-
+        // Redirect to the listings page after deletion
+        res.redirect('/contacts/getAllContact');
     } catch (error) {
-        
+        console.error(error);
+        res.status(500).render('listings', { Message: "An error occurred while deleting the contact" });
     }
-}
+};
+
 
 module.exports = {
     CreateContact,
