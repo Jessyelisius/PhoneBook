@@ -1,6 +1,6 @@
 const express = require('express');
 const validateTokens = require('../middleware/jwtToken');
-const { CreateContact, GetContact, GetUserByTags, updateContact, deleteContact, GetSingleContact } = require('../controller/contactsContrl');
+const { CreateContact, updateContact, deleteContact, } = require('../controller/contactsContrl');
 const ContactModel = require('../model/Contact.model');
 
 
