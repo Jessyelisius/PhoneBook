@@ -41,7 +41,7 @@ app.get('/404', (req, res) => {
 
 // Catch-all for undefined routes
 app.use((req, res) => {
-    res.status(404).redirect('/404');
+    res.status(404).redirect('/login');
 });
 
 app.listen(port, () =>{

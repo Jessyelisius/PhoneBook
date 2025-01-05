@@ -14,13 +14,13 @@ const validateTokens = async (req, res, next) => {
 
     if (!token) {
         console.error('No token provided. Redirecting to 404.');
-        return res.redirect('/404'); // Redirect to 404 if no token
+        return res.redirect('/login'); // Redirect to 404 if no token
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         if (err) {
             console.error('Invalid or expired token:', err.message);
-            return res.redirect('/404'); // Redirect to 404 on token issues
+            return res.redirect('/login'); // Redirect to 404 on token issues
         }
 
         // Optionally verify if the user exists in the database
